@@ -1,0 +1,126 @@
+<div ng-controller="itemShowController">
+  <view-title>{{item.name}} |</view-title>
+
+  <div class="pure-g" ng-hide="loading">
+    <div class="pure-u-1 content name">
+      <h1 class="text-center">{{item.name}}</h1>
+      <h4 class="text-center">Item</h4>
+    </div>
+    <!--  -->
+    <div class="pure-u-1 pure-u-lg-1-4"></div>
+    <div class="pure-u-1 pure-u-lg-1-2 ">
+      <div class="text-center">
+        <h2 class="text-center">Type: {{item.effect_type}}</h2>
+        <br>
+        <p>{{item.effect}}</p>
+      </div>
+
+      <br>
+      <br>
+      <div ng-if="item.abilities">
+        <h3 class="text-center">Weapon and Armour Abilities</h3>
+        <table class="pure-table pure-table-bordered">
+          <thead>
+              <tr>
+                <th>Ability</th>
+                <th>Effect</th>
+                <th>Amount</th>
+                <th>Type</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="ability in item.abilities"  ng-class="{'pure-table-odd': $odd}">
+                <td><a ng-href="/ability/{{ability.api_details.slug}}">{{ ability.name }}</a></td>
+                <td>{{ ability.effect }}</td>
+                <td>{{ ability.amount_needed }}</td>
+                <td>{{ ability.ability_type }}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div ng-if="item.kill_drops">
+        <h3 class="text-center">Kill <ng-pluralize count="item.kill_drops.length" when="{'one': 'Drop','other': 'Drops'}"></ng-pluralize></h3>
+          <table class="pure-table pure-table-bordered">
+            <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Rarity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="killDrop in item.kill_drops"  ng-class="{'pure-table-odd': $odd}">
+                  <td><a ng-href="/monster/{{killDrop.api_details.slug}}">{{ killDrop.name }}</a></td>
+                  <td>{{ killDrop.amount }}</td>
+                  <td>{{ killDrop.rare ? 'Rare' : 'Common' }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+      <div ng-if="item.steal_drops">
+        <h3 class="text-center">Steal <ng-pluralize count="item.steal_drops.length" when="{'one': 'Drop','other': 'Drops'}"></ng-pluralize></h3>
+          <table class="pure-table pure-table-bordered">
+            <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Rarity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="stealDrop in item.steal_drops"  ng-class="{'pure-table-odd': $odd}">
+                  <td><a ng-href="/monster/{{stealDrop.api_details.monster.slug}}">{{ stealDrop.name }}</a></td>
+                  <td>{{ stealDrop.amount }}</td>
+                  <td>{{ stealDrop.rare ? 'Rare' : 'Common' }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+      <div ng-if="item.bribe_drops">
+        <h3 class="text-center">Bribe <ng-pluralize count="item.bribe_drops.length" when="{'one': 'Drop','other': 'Drops'}"></ng-pluralize></h3>
+          <table class="pure-table pure-table-bordered">
+            <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="bribeDrop in item.bribe_drops"  ng-class="{'pure-table-odd': $odd}">
+                  <td><a ng-href="/monster/{{bribeDrop.api_details.slug}}">{{ bribeDrop.name }}</a></td>
+                  <td>{{ bribeDrop.amount }}</td>
+                  <td>{{ bribeDrop.cost | number }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+      <div ng-if="item.mixes">
+        <h3 class="text-center">Mixes</h3>
+          <table class="pure-table pure-table-bordered">
+            <thead>
+                <tr>
+                  <th colspan="3" class="text-center">Mix</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center" ng-repeat="mixSplit in mixSplit"  ng-class="{'pure-table-odd': $odd}">
+                  <td ng-repeat="mix in mixSplit">
+                    <a ng-href="/mix/{{mix.slug}}">{{ mix.name }}</a>
+                  </td>
+                  <td ng-if="mixSplit.length == 2" ng-repeat="x in [1]"></td>
+                  <td ng-if="mixSplit.length == 1" ng-repeat="x in [1, 2]"></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="pure-u-1 pure-u-lg-1-4"></div>
+  </div>
+  <loading-icon ng-show="loading"></loading-icon>
+</div>

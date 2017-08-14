@@ -1,0 +1,27 @@
+<view-title>Mixes |</view-title>
+
+<div ng-controller="mixIndexController">
+  <div class="pure-g content" ng-hide="loading">
+    <div class="pure-u-1-24 pure-u-lg-1-4"></div>
+    <div class="pure-u-22-24 pure-u-lg-1-2 table-container">
+      <h1 class="name text-center">All Mixes</h1>
+      <input type="text" placeholder="Filter Results" class="filter-input" ng-model="searchResults">
+      <table class="pure-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="mix in mixes | filter:searchResults"  ng-class="{'pure-table-odd': $odd}">
+            <td><a ng-href="mix/{{mix.api_details.slug}}">{{ mix.name }}</a></td>
+            <td>{{ mix.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pure-u-1-24 pure-u-lg-1-4"></div>
+  </div>
+  <loading-icon ng-show="loading"></loading-icon>
+</div>

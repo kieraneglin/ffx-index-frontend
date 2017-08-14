@@ -1,0 +1,57 @@
+<div ng-controller="abilityShowController">
+  <view-title>{{ability.name}} |</view-title>
+  <div class="pure-g" ng-hide="loading">
+    <div class="pure-u-1 content name">
+      <h1 class="text-center">{{ability.name}}</h1>
+      <h4 class="text-center">Ability</h4>
+    </div>
+    <!--  -->
+    <div class="pure-u-1 pure-u-lg-1-4"></div>
+    <div class="pure-u-1 pure-u-lg-1-2 ">
+      <div class="text-center">
+        <h2 class="text-center">Type: {{ability.ability_type}}</h2>
+        <br>
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <th class="text-center">Effect</th>
+                <th class="text-center">Item Needed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">{{ ability.effect }}</td>
+                <td class="text-center">
+                  <span ng-if="ability.item">
+                    <a ng-href="item/{{ability.item.api_details.slug}}">{{ability.item.name}}</a> x {{ability.item.item_amount}}
+                  </span>
+                  <span ng-if="!ability.item">
+                    N/A
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <span ng-if="ability.monster_drops">
+          <br>
+          <br>
+        <h2>Possible Monster Drops</h2>
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <th class="text-center">Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="monster in ability.monster_drops"  ng-class="{'pure-table-odd': $odd}">
+                <td class="text-center"><a ng-href="monster/{{monster.slug}}">{{ monster.name }}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </span>
+      </div>
+    </div>
+    <div class="pure-u-1 pure-u-lg-1-4"></div>
+  </div>
+  <loading-icon ng-show="loading"></loading-icon>
+</div>

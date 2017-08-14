@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="FFXItem">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="nEklmsREPgpGbZMgs5kgQD1O8hfebg1GDoPmClZ8oWo" />
+  <meta name="description" content="A database and monster tracker for Final Fantasy X">
+  <title ng-bind-template="{{viewTitle}} FFX Index">FFX Index</title>
+  <base href="/">
+  <link rel="stylesheet" href="assets/dist/styles.css">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=m22XdX6o9Q">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=m22XdX6o9Q">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png?v=m22XdX6o9Q" sizes="32x32">
+  <link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=m22XdX6o9Q" sizes="192x192">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png?v=m22XdX6o9Q" sizes="96x96">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png?v=m22XdX6o9Q" sizes="16x16">
+  <link rel="manifest" href="/manifest.json?v=m22XdX6o9Q">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg?v=m22XdX6o9Q" color="#5bbad5">
+  <link rel="shortcut icon" href="/favicon.ico?v=m22XdX6o9Q">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=m22XdX6o9Q">
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+  <nav-bar></nav-bar>
+  <div ng-view></div>
+  <div class="search-page-categories text-center" style="margin-bottom:20px;">
+    <a ng-href="monster/all">Monsters</a> |
+    <a ng-href="item/all">Items</a> |
+    <a ng-href="ability/all">Abilities</a> |
+    <a ng-href="mix/all">Mixes</a> |
+    <a ng-href="keyitem/all">Key Items</a> |
+    <a ng-href="location/all">Locations</a> |
+    <a ng-href="arena/tracker">Monster Arena</a>
+  </div>
+  <script src="assets/dist/scripts.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

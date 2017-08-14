@@ -1,0 +1,466 @@
+<view-title>Monster Tracker |</view-title>
+
+<div ng-controller="arenaTrackerController" ngf-drop ngf-drag-over-class="dragover">
+  <div class="pure-g content">
+    <div class="pure-u-1-1 text-center">
+      <h1 class="name text-center">Monster Arena Tracker</h1>
+      <h3 class="name text-center"><a ng-href="/arena"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go to monster list</a></h3>
+      <p class="text-center load-save-button" ng-click="saveVisible = !saveVisible" ng-hide="uploadSuccess">Load Progress From Save
+        <i class="fa fa-caret-down" aria-hidden="true" ng-hide="saveVisible"></i>
+        <i class="fa fa-caret-up" aria-hidden="true" ng-show="saveVisible"></i>
+      </p>
+      <div class="text-center load-save-container" ng-show="saveVisible">
+        <div class="load-save-backdrop">
+          <p>
+            To upload a FFX savefile, navigate to your save directory (<span class='code'>Documents\Square Enix\FINAL FANTASY X&amp;X-2 HD Remaster\FINAL FANTASY X\ffx_xxx</span>)
+            <br>
+            <form ng-app="fileUpload" name="form">
+              <div ngf-drop="upload($file)" ngf-select="upload($file)" class="drop-box" ngf-drag-over-class="'dragover'">Then, drag file here to upload</div>
+            </form>
+            <span class="disclaimer">Although there is no reason this would corrupt or alter a save, I provide no support, warranty, or backup if anything goes wrong.</span>
+            <br>
+            <span class="disclaimer">You use this at your own risk and I recommend you make a backup of any file before uploading.</span>
+          </p>
+        </div>
+      </div>
+      <span ng-show="uploadSuccess" class="text-center"><i class="fa fa-check" aria-hidden="true"></i> Upload Successful</span>
+    </div>
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Besaid</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.besaid" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="besaid{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="besaid{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-2-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Kilika</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.kilika" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="kilika{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="kilika{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+    <!-- PAGE 2 -->
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Mi'ihen Highroad</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.miihenHighroad" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="miihenHighroad{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="miihenHighroad{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-2-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Mushroom Rock Road</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.mushroomRockRoad" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="mushroomRockRoad{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="mushroomRockRoad{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+    <!-- PAGE 3 -->
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Djose Road</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.djoseRoad" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="djoseRoad{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="djoseRoad{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-2-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Thunder Plains</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.thunderPlains" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="thunderPlains{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="thunderPlains{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+
+    <!-- PAGE 4 -->
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Macalania</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.macalania" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="macalania{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="macalania{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-2-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+        <h2 class="text-center">Bikanel</h2>
+        <table class="pure-table">
+          <thead>
+            <tr>
+              <th class="text-center">Monster</th>
+              <th class="text-center">Count</th>
+              <th class="text-center">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="monster in monsters.bikanel" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+              <td class="text-center">
+                <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+              </td>
+              <td class="text-center">
+                <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                  <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+              </td>
+
+              <td class="text-center">
+                <div class="squaredTwo">
+                  <input type="checkbox" id="bikanel{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                  <label for="bikanel{{$index}}"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+
+        <!-- PAGE 5 -->
+        <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+        <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+          <h2 class="text-center">Calm Lands</h2>
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <th class="text-center">Monster</th>
+                <th class="text-center">Count</th>
+                <th class="text-center">Done</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="monster in monsters.calmLands" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+                <td class="text-center">
+                  <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                    <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                  <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                </td>
+
+                <td class="text-center">
+                  <div class="squaredTwo">
+                    <input type="checkbox" id="calmLands{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                    <label for="calmLands{{$index}}"></label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="pure-u-1-1 pure-u-lg-2-24"></div>
+        <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+          <h2 class="text-center">Stolen Fayth Cavern</h2>
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <th class="text-center">Monster</th>
+                <th class="text-center">Count</th>
+                <th class="text-center">Done</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="monster in monsters.stolenFaythCavern" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+                <td class="text-center">
+                  <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                    <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                  <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                </td>
+
+                <td class="text-center">
+                  <div class="squaredTwo">
+                    <input type="checkbox" id="stolenFaythCavern{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                    <label for="stolenFaythCavern{{$index}}"></label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+
+        <!-- PAGE 6 -->
+        <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+        <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+          <h2 class="text-center">Mt. Gagazet</h2>
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <th class="text-center">Monster</th>
+                <th class="text-center">Count</th>
+                <th class="text-center">Done</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="monster in monsters.mtGagazet" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+                <td class="text-center">
+                  <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                    <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                  <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                </td>
+
+                <td class="text-center">
+                  <div class="squaredTwo">
+                    <input type="checkbox" id="mtGagazet{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                    <label for="mtGagazet{{$index}}"></label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="pure-u-1-1 pure-u-lg-2-24"></div>
+        <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+          <h2 class="text-center">Inside Sin</h2>
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <th class="text-center">Monster</th>
+                <th class="text-center">Count</th>
+                <th class="text-center">Done</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="monster in monsters.insideSin" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+                <td class="text-center">
+                  <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                    <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+                  <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                </td>
+
+                <td class="text-center">
+                  <div class="squaredTwo">
+                    <input type="checkbox" id="insideSin{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                    <label for="insideSin{{$index}}"></label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+
+    <!-- PAGE 6 -->
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+      <h2 class="text-center">Omega Dungeon</h2>
+      <table class="pure-table">
+        <thead>
+          <tr>
+            <th class="text-center">Monster</th>
+            <th class="text-center">Count</th>
+            <th class="text-center">Done</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="monster in monsters.omegaDungeon" ng-class="{'complete': monster.complete, 'pure-table-odd': $odd}">
+            <td class="text-center">
+              <a ng-href="monster/{{monster.slug}}">{{monster.name}}</a>
+            </td>
+            <td class="text-center">
+              <i class="fa fa-caret-left increment-monster left" ng-click="monster.count = monster.count - 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+                <span class="monster-count">{{monster.count}}<span ng-show="monster.complete">&nbsp;</span></span>
+              <i class="fa fa-caret-right increment-monster right" ng-click="monster.count = monster.count + 1; checkCount(monster); saveProgress(monsters)" aria-hidden="true"></i>
+            </td>
+
+            <td class="text-center">
+              <div class="squaredTwo">
+                <input type="checkbox" id="omegaDungeon{{$index}}" ng-checked="monster.complete" ng-model="monster.complete" ng-change="markComplete(monster); saveProgress(monsters)">
+                <label for="omegaDungeon{{$index}}"></label>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-2-24"></div>
+    <div class="pure-u-1-1 pure-u-lg-8-24 table-container">
+
+      </div>
+    <div class="pure-u-1-1 pure-u-lg-3-24"></div>
+  </div>
+</div>

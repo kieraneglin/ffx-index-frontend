@@ -1,0 +1,39 @@
+<div ng-controller="searchResultsController">
+  <view-title>{{searchTerm}} |</view-title>
+
+  <div class="pure-g" ng-hide="loading">
+    <div class="pure-u-1 content">
+      <h1 ng-if="searchTerm" class="text-center">Search Results For '{{searchTerm}}'</h1>
+      <h1 ng-if="!searchTerm" class="text-center">Search For Anything</h1>
+    </div>
+    <!--  -->
+    <div class="pure-u-1-24 pure-u-lg-1-4"></div>
+    <div class="pure-u-22-24 pure-u-lg-1-2 table-container">
+      <input type="text" class="filter-input" placeholder="Filter Results" ng-model="searchTerm">
+      <table class="pure-table">
+        <thead>
+          <tr>
+            <th ng-click="sortOrder = 'name'">
+              Name
+              <span ng-show="sortOrder == 'name'" class="fa fa-caret-down"></span>
+              <span ng-hide="sortOrder == 'name'" class="fa fa-angle-down"></span>
+            </th>
+            <th ng-click="sortOrder = 'type'">
+              Type
+              <span ng-show="sortOrder == 'type'" class="fa fa-caret-down"></span>
+              <span ng-hide="sortOrder == 'type'" class="fa fa-angle-down"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="result in results | orderBy:sortOrder | filter:searchTerm"  ng-class="{'pure-table-odd': $odd}">
+            <td><a ng-href="/{{result.type}}/{{result.slug}}">{{ result.name }}</a></td>
+            <td>{{ result.type }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pure-u-1-24 pure-u-lg-1-4"></div>
+  </div>
+  <loading-icon ng-show="loading"></loading-icon>
+</div>

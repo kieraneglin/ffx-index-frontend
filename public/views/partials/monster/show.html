@@ -1,0 +1,187 @@
+<div ng-controller="monsterShowController">
+  <view-title>{{monster.name}} |</view-title>
+
+    <div class="pure-g" ng-hide="loading">
+        <div class="pure-u-1 content name">
+          <h1 class="text-center">{{monster.name}}<span ng-if="monster.boss"> - Boss</span></h1>
+          <h4 class="text-center">Monster</h4>
+        </div>
+        <!--  -->
+        <div class="pure-u-1 pure-u-lg-1-4"></div>
+        <div class="pure-u-1 pure-u-lg-1-2 text-center">
+            <h2>
+              <a ng-repeat="location in monster.locations" ng-href="location/{{location.slug}}">
+                {{location.name}}<span ng-if="!$last">,</span>
+              </a>
+            </h2>
+            <br>
+            <h3>Gil Earned - {{monster.gil | number}}</h3>
+            <br>
+            <h3>AP Earned - {{monster.stats.ap | number}}</h3>
+            <span ng-if="monster.notes">
+              <br>
+              <p>{{monster.notes}}</p>
+            </span>
+            <span ng-if="monster.skills">
+              <br>
+              <p>Learnable Skills: {{monster.skills}}</p>
+            </span>
+            <br>
+            <br>
+            <h2>Stats</h2>
+            <table class="pure-table pure-table-bordered">
+              <thead>
+                <tr class="text-center">
+                  <th>Health (Overkill)</th>
+                  <th>Strength</th>
+                  <th>Defense</th>
+                  <th>Magic</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{monster.stats.health | number}} ({{monster.stats.overkill | number}})</td>
+                  <td>{{monster.stats.strength}}</td>
+                  <td>{{monster.stats.defense}}</td>
+                  <td>{{monster.stats.magic}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="pure-table pure-table-bordered">
+              <thead>
+                <tr class="text-center">
+                  <th>Magic Def.</th>
+                  <th>MP</th>
+                  <th>Agility</th>
+                  <th>Evasion</th>
+                  <th>Accuracy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{monster.stats.magic_defense}}</td>
+                  <td>{{monster.stats.mp}}</td>
+                  <td>{{monster.stats.agility}}</td>
+                  <td>{{monster.stats.evasion}}</td>
+                  <td>{{monster.stats.accuracy}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2>Elemental Affinities</h2>
+            <table class="pure-table pure-table-bordered">
+              <thead>
+                <tr class="text-center">
+                  <th>Fire</th>
+                  <th>Ice</th>
+                  <th>Thunder</th>
+                  <th>Water</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{monster.elements.fire | elements}}</td>
+                  <td>{{monster.elements.ice | elements}}</td>
+                  <td>{{monster.elements.thunder | elements}}</td>
+                  <td>{{monster.elements.water | elements}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div ng-if="monster.kill_drops.length">
+              <h2>Kill <ng-pluralize count="monster.kill_drops.length" when="{'one': 'Drop','other': 'Drops'}"></ng-pluralize></h2>
+              <table class="pure-table">
+                <thead>
+                  <tr class="text-center">
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Rarity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="killDrop in monster.kill_drops" ng-class="{'pure-table-odd': $odd}">
+                    <td><a ng-href="item/{{killDrop.api_details.slug}}">{{killDrop.name}}</a></td>
+                    <td>{{killDrop.amount}}</td>
+                    <td>{{killDrop.rare ? 'Rare' : 'Common'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div ng-if="monster.steal_drops.length">
+              <h2>Steal <ng-pluralize count="monster.kill_drops.length" when="{'one': 'Drop','other': 'Drops'}"></ng-pluralize></h2>
+              <table class="pure-table">
+                <thead>
+                  <tr class="text-center">
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Rarity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="stealDrop in monster.steal_drops" ng-class="{'pure-table-odd': $odd}">
+                    <td><a ng-href="item/{{stealDrop.api_details.slug}}">{{stealDrop.name}}</a></td>
+                    <td>{{stealDrop.amount}}</td>
+                    <td>{{stealDrop.rare ? 'Rare' : 'Common'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div ng-if="monster.bribe_drop">
+              <h2>Bribe Drop</h2>
+              <table class="pure-table">
+                <thead>
+                  <tr class="text-center">
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a ng-href="item/{{monster.bribe_drop.api_details.slug}}">{{monster.bribe_drop.name}}</a></td>
+                    <td>{{monster.bribe_drop.amount}}</td>
+                    <td>{{monster.bribe_drop.cost | number}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div ng-if="monster.drop_abilities.weapons.length">
+              <h2>Possible Weapon Drops</h2>
+              <table class="pure-table">
+                <thead>
+                  <tr class="text-center">
+                    <th>Ability</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="weapAbility in monster.drop_abilities.weapons" ng-class="{'pure-table-odd': $odd}">
+                    <td><a ng-href="ability/{{weapAbility.api_details.slug}}">{{weapAbility.ability}}</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div ng-if="monster.drop_abilities.armours.length">
+              <h2>Possible Armour Drops</h2>
+              <table class="pure-table">
+                <thead>
+                  <tr class="text-center">
+                    <th>Ability</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="armourAbility in monster.drop_abilities.armours" ng-class="{'pure-table-odd': $odd}">
+                    <td><a ng-href="ability/{{armourAbility.api_details.slug}}">{{armourAbility.ability}}</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pure-u-1 pure-u-lg-1-4"></div>
+        </div>
+    </div>
+    <loading-icon ng-show="loading"></loading-icon>
+</div>

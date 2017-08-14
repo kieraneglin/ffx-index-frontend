@@ -1,0 +1,39 @@
+<form name="mainsearch" novalidate ng-keyup="$event.keyCode == 13 && search()">
+  <input id="linkto" type="hidden" value="">
+  <input id="main-search" type="text" placeholder="Search For Anything" required>
+  <button type="submit" ng-click="search()">
+    <i class="fa fa-search"></i>
+  </button>
+</form>
+<script type="text/javascript">
+    if (typeof localStorage !== 'undefined') {
+      // Dumps localStorage if typeahead still cached
+      if (localStorage.getItem('__/assets/json/search_options.json__data') !== null) {
+        localStorage.clear();
+      }
+    }
+    // I know this is bad but I'm super shitty at angular and on a timeline
+    //  Please don't hate me
+    var recordList = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: {
+        url: '/assets/json/search_options.json',
+        cache: false,
+        ttl: 1
+      }
+    });
+    $('#main-search').typeahead(null, {
+      display: 'name',
+      source: recordList,
+      limit: 7,
+      templates: {
+        suggestion: Handlebars.compile('<div class="tt-entry"><span class="tt-search-name">{{name}}</span><span class="tt-search-type">{{type}}</span></div>')
+      }
+    });
+    $('#main-search').on('typeahead:select', function(e, obj){
+      var url = obj.type + '/' + obj.slug
+      $('#linkto').val(url);
+      $('#main-search').val('');
+    });
+</script>

@@ -1,0 +1,53 @@
+<view-title>Abilities |</view-title>
+<div ng-controller="abilityIndexController">
+  <div class="pure-g content" ng-hide="loading">
+    <div class="pure-u-1-1 pure-u-md-1-24 pure-u-xl-3-24"></div>
+    <div class="pure-u-1-1 pure-u-md-22-24 pure-u-xl-18-24 table-container">
+      <h1 class="name text-center">All Abilities</h1>
+      <input type="text" placeholder="Filter Results" class="filter-input" ng-model="searchResults">
+      <table class="pure-table">
+        <thead>
+          <tr>
+            <th ng-click="sortOrder = 'name'">
+              Name
+              <span ng-show="sortOrder == 'name'" class="fa fa-caret-down"></span>
+              <span ng-hide="sortOrder == 'name'" class="fa fa-angle-down"></span>
+            </th>
+            <th ng-click="sortOrder = 'effect'">
+              Description
+              <span ng-show="sortOrder == 'effect'" class="fa fa-caret-down"></span>
+              <span ng-hide="sortOrder == 'effect'" class="fa fa-angle-down"></span>
+            </th>
+            <th ng-click="sortOrder = 'ability_type'">
+              Type
+              <span ng-show="sortOrder == 'ability_type'" class="fa fa-caret-down"></span>
+              <span ng-hide="sortOrder == 'ability_type'" class="fa fa-angle-down"></span>
+            </th>
+            <th ng-click="sortOrder = 'item.name'">
+              Item
+              <span ng-show="sortOrder == 'item.name'" class="fa fa-caret-down"></span>
+              <span ng-hide="sortOrder == 'item.name'" class="fa fa-angle-down"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="ability in abilities | orderBy:sortOrder | filter:searchResults"  ng-class="{'pure-table-odd': $odd}">
+            <td><a ng-href="/ability/{{ability.api_details.slug}}">{{ ability.name }}</a></td>
+            <td>{{ ability.effect }}</td>
+            <td>{{ ability.ability_type }}</td>
+            <td>
+              <span ng-if="ability.item">
+                <a ng-href="item/{{ability.item.api_details.slug}}">{{ability.item.name}}</a> x {{ability.item.amount}}
+              </span>
+              <span ng-if="!ability.item">
+                N/A
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pure-u-1-1 pure-u-md-1-24 pure-u-xl-3-24"></div>
+  </div>
+  <loading-icon ng-show="loading"></loading-icon>
+</div>
